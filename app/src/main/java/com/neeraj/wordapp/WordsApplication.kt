@@ -6,16 +6,13 @@ import kotlinx.coroutines.SupervisorJob
 
 class WordsApplication : Application() {
 
-    val applicationScope = CoroutineScope(SupervisorJob())
+    private val applicationScope = CoroutineScope(SupervisorJob())
 
-
-    val database : WordRoomDatabase by lazy {
+    private val database : WordRoomDatabase by lazy {
         WordRoomDatabase.getDatabaseInstance(this, applicationScope)
     }
-
 
     val repository : WordRepository by lazy {
         WordRepository(database.getWordDao())
     }
-
 }

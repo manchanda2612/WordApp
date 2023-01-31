@@ -49,7 +49,6 @@ public abstract class WordRoomDatabase : RoomDatabase() {
                 scope.launch {
                     populateDatabase(database.getWordDao())
                 }
-
             }
         }
 

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,6 +14,8 @@ import com.neeraj.wordapp.WordViewModel.*
 class MainActivity : AppCompatActivity() {
 
     private val newWordActivityRequestCode = 1
+
+
     private val wordViewModel: WordViewModel by viewModels {
         WordViewModelFactory((application as WordsApplication).repository)
     }
@@ -33,11 +34,10 @@ class MainActivity : AppCompatActivity() {
         // in the foreground.
         wordViewModel.allWords.observe(this) { words ->
             // Update the cached copy of the words in the adapter.
-            words.let { adapter.submitList(it) }
+            words.let {
+                adapter.submitList(it)
+            }
         }
-
-
-
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
+
             intentData?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let { reply ->
                 val word = Word(reply)
                 wordViewModel.insertWord(word)
